@@ -35,14 +35,3 @@ def convert_rna_to_protein(rna: str) -> str:
             start += CODON_LENGTH
             end += CODON_LENGTH
     return polypeptide
-
-
-assert convert_dna_to_rna('ATTTGGCTACTAACAATCTA') == 'AUUUGGCUACUAACAAUCUA'
-assert convert_dna_to_rna('GTTGTAATGGCCTACATTA') == 'GUUGUAAUGGCCUACAUUA'
-assert convert_dna_to_rna('CAGGTGGTGTTGTTCAGTT') == 'CAGGUGGUGUUGUUCAGUU'
-assert convert_dna_to_rna('GCTAACTAAC') == 'GCUAACUAAC'
-assert convert_rna_to_protein('AUUUGGCUACUAACAAUCUA') == 'IWLLTI'
-assert convert_rna_to_protein('GUUGUAAUGGCCUACAUUA') == 'VVMAYI'
-assert convert_rna_to_protein('CAGGUGGUGUUGUUCAGUU') == 'QVVLFS'
-assert convert_rna_to_protein('GCUAACUAAC') == 'AN.'
-assert convert_rna_to_protein('GCUAACUAACAUCUUUGGCACUGUU') == 'AN.HLWHC'
