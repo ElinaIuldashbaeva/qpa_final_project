@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 import data.database as db
+import matplotlib.pyplot as plt
+import numpy as np
 
 CODON_LENGTH = 3
 
@@ -37,12 +39,24 @@ def convert_rna_to_protein(rna: str) -> str:
     return polypeptide
 
 
-assert convert_dna_to_rna('ATTTGGCTACTAACAATCTA') == 'AUUUGGCUACUAACAAUCUA'
-assert convert_dna_to_rna('GTTGTAATGGCCTACATTA') == 'GUUGUAAUGGCCUACAUUA'
-assert convert_dna_to_rna('CAGGTGGTGTTGTTCAGTT') == 'CAGGUGGUGUUGUUCAGUU'
-assert convert_dna_to_rna('GCTAACTAAC') == 'GCUAACUAAC'
-assert convert_rna_to_protein('AUUUGGCUACUAACAAUCUA') == 'IWLLTI'
-assert convert_rna_to_protein('GUUGUAAUGGCCUACAUUA') == 'VVMAYI'
-assert convert_rna_to_protein('CAGGUGGUGUUGUUCAGUU') == 'QVVLFS'
-assert convert_rna_to_protein('GCUAACUAAC') == 'AN.'
-assert convert_rna_to_protein('GCUAACUAACAUCUUUGGCACUGUU') == 'AN.HLWHC'
+def plot_the_gc_ratio(sequence: str, step=100) -> None:
+    """ Function that plots the GC-content graph """
+
+    ratios = []
+    start, end = 0, step
+    while end <= len(sequence):
+        bases_number = {'A': 0, 'T': 0, 'G': 0, 'C': 0}
+        for base in sequence[start:end]:
+            bases_number[base] += 1
+        ratio = ((bases_number['G'] + bases_number['C']) / step) * 100
+        ratios.append(ratio)
+        start += step
+        end += step
+    ratios.append(ratios[-1])
+    x = np.arange(0, len(sequence), step)
+    plt.step(x, ratios, where='post')
+    plt.suptitle('GC content distribution')
+    plt.ylabel('guanine-cytosine ratio (%)')
+    plt.xlabel('DNA bases position')
+    plt.savefig('gc_ratio_of_genome.png')
+
