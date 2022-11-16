@@ -37,7 +37,6 @@ def convert_rna_to_protein(rna: str) -> str:
             start += CODON_LENGTH
             end += CODON_LENGTH
     return polypeptide
-<<<<<<< HEAD
 
 
 def plot_the_gc_ratio(sequence: str, step=100) -> None:
@@ -61,5 +60,3 @@ def plot_the_gc_ratio(sequence: str, step=100) -> None:
     plt.xlabel('DNA bases position')
     plt.savefig('gc_ratio_of_genome.png')
 
-=======
->>>>>>> 8d4203f8b40639e1e2b7d202130f9267558058ed
