@@ -1,6 +1,30 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
+CODONS_AMINOACIDS_MAP = {
+    'A': ['GCU', 'GCC', 'GCA', 'GCG'],
+    'G': ['GGU', 'GGC', 'GGA', 'GGG'],
+    'M': ['AUG'],
+    'S': ['AGU', 'AGC', 'UCU', 'UCC', 'UCA', 'UCG'],
+    'C': ['UGU', 'UGC'],
+    'H': ['CAU', 'CAC'],
+    'N': ['AAU', 'AAC'],
+    'T': ['ACU', 'ACC', 'ACA', 'ACG'],
+    'D': ['GAU', 'GAC'],
+    'I': ['AUU', 'AUC', 'AUA'],
+    'P': ['CCU', 'CCC', 'CCA', 'CCG'],
+    'V': ['GUU', 'GUC', 'GUA', 'GUG'],
+    'E': ['GAA', 'GAG'],
+    'K': ['AAA', 'AAG'],
+    'Q': ['CAA', 'CAG'],
+    'W': ['UGG'],
+    'F': ['UUU', 'UUC'],
+    'L': ['CUU', 'CUC', 'CUA', 'CUG', 'UUA', 'UUG'],
+    'R': ['AGA', 'AGG', 'CGU', 'CGC', 'CGA', 'CGG'],
+    'Y': ['UAU', 'UAC'],
+    '.': ['UAA', 'UAG', 'UGA']
+}
+
 engine = create_engine("sqlite:///genetics.db")
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
@@ -60,8 +84,7 @@ class AminoAcids(Base):
 
 # Filling the tables with the data
 
-if __name__ == '__main__':
-    Base.metadata.create_all(engine)
+def fill_rna_dna_tables():
 
     uracil = Rna(rna_base='U')
     cytosine_rna = Rna(rna_base='C')
@@ -79,100 +102,21 @@ if __name__ == '__main__':
         session.add_all(dna_bases)
         session.commit()
 
-    ala = AminoAcids(aminoacid='A')
-    gly = AminoAcids(aminoacid='G')
-    met = AminoAcids(aminoacid='M')
-    ser = AminoAcids(aminoacid='S')
-    cys = AminoAcids(aminoacid='C')
-    his = AminoAcids(aminoacid='H')
-    asn = AminoAcids(aminoacid='N')
-    thr = AminoAcids(aminoacid='T')
-    asp = AminoAcids(aminoacid='D')
-    ile = AminoAcids(aminoacid='I')
-    pro = AminoAcids(aminoacid='P')
-    val = AminoAcids(aminoacid='V')
-    glu = AminoAcids(aminoacid='E')
-    lys = AminoAcids(aminoacid='K')
-    gln = AminoAcids(aminoacid='Q')
-    trp = AminoAcids(aminoacid='W')
-    phe = AminoAcids(aminoacid='F')
-    leu = AminoAcids(aminoacid='L')
-    arg = AminoAcids(aminoacid='R')
-    tyr = AminoAcids(aminoacid='Y')
-    stop = AminoAcids(aminoacid='.')
 
-    uuu = Triplets(codon='UUU', aminoacid=phe)
-    uuc = Triplets(codon='UUC', aminoacid=phe)
-    uua = Triplets(codon='UUA', aminoacid=leu)
-    uug = Triplets(codon='UUG', aminoacid=leu)
-    ucu = Triplets(codon='UCU', aminoacid=ser)
-    ucc = Triplets(codon='UCC', aminoacid=ser)
-    uca = Triplets(codon='UCA', aminoacid=ser)
-    ucg = Triplets(codon='UCG', aminoacid=ser)
-    uau = Triplets(codon='UAU', aminoacid=tyr)
-    uac = Triplets(codon='UAC', aminoacid=tyr)
-    uaa = Triplets(codon='UAA', aminoacid=stop)
-    uag = Triplets(codon='UAG', aminoacid=stop)
-    ugu = Triplets(codon='UGU', aminoacid=cys)
-    ugc = Triplets(codon='UGC', aminoacid=cys)
-    uga = Triplets(codon='UGA', aminoacid=stop)
-    ugg = Triplets(codon='UGG', aminoacid=trp)
-    cuu = Triplets(codon='CUU', aminoacid=leu)
-    cuc = Triplets(codon='CUC', aminoacid=leu)
-    cua = Triplets(codon='CUA', aminoacid=leu)
-    cug = Triplets(codon='CUG', aminoacid=leu)
-    ccu = Triplets(codon='CCU', aminoacid=pro)
-    ccc = Triplets(codon='CCC', aminoacid=pro)
-    cca = Triplets(codon='CCA', aminoacid=pro)
-    ccg = Triplets(codon='CCG', aminoacid=pro)
-    cau = Triplets(codon='CAU', aminoacid=his)
-    cac = Triplets(codon='CAC', aminoacid=his)
-    caa = Triplets(codon='CAA', aminoacid=gln)
-    cag = Triplets(codon='CAG', aminoacid=gln)
-    cgu = Triplets(codon='CGU', aminoacid=arg)
-    cgc = Triplets(codon='CGC', aminoacid=arg)
-    cga = Triplets(codon='CGA', aminoacid=arg)
-    cgg = Triplets(codon='CGG', aminoacid=arg)
-    auu = Triplets(codon='AUU', aminoacid=ile)
-    auc = Triplets(codon='AUC', aminoacid=ile)
-    aua = Triplets(codon='AUA', aminoacid=ile)
-    aug = Triplets(codon='AUG', aminoacid=met)
-    acu = Triplets(codon='ACU', aminoacid=thr)
-    acc = Triplets(codon='ACC', aminoacid=thr)
-    aca = Triplets(codon='ACA', aminoacid=thr)
-    acg = Triplets(codon='ACG', aminoacid=thr)
-    aau = Triplets(codon='AAU', aminoacid=asn)
-    aac = Triplets(codon='AAC', aminoacid=asn)
-    aaa = Triplets(codon='AAA', aminoacid=lys)
-    aag = Triplets(codon='AAG', aminoacid=lys)
-    agu = Triplets(codon='AGU', aminoacid=ser)
-    agc = Triplets(codon='AGC', aminoacid=ser)
-    aga = Triplets(codon='AGA', aminoacid=arg)
-    agg = Triplets(codon='AGG', aminoacid=arg)
-    guu = Triplets(codon='GUU', aminoacid=val)
-    guc = Triplets(codon='GUC', aminoacid=val)
-    gua = Triplets(codon='GUA', aminoacid=val)
-    gug = Triplets(codon='GUG', aminoacid=val)
-    gcu = Triplets(codon='GCU', aminoacid=ala)
-    gcc = Triplets(codon='GCC', aminoacid=ala)
-    gca = Triplets(codon='GCA', aminoacid=ala)
-    gcg = Triplets(codon='GCG', aminoacid=ala)
-    gau = Triplets(codon='GAU', aminoacid=asp)
-    gac = Triplets(codon='GAC', aminoacid=asp)
-    gaa = Triplets(codon='GAA', aminoacid=glu)
-    gag = Triplets(codon='GAG', aminoacid=glu)
-    ggu = Triplets(codon='GGU', aminoacid=gly)
-    ggc = Triplets(codon='GGC', aminoacid=gly)
-    gga = Triplets(codon='GGA', aminoacid=gly)
-    ggg = Triplets(codon='GGG', aminoacid=gly)
+def fill_codons_aminoacids_tables():
 
-    codons = [
-        uuu, uuc, uua, uug, ucu, ucc, uca, ucg, uau, uac, uaa, uag, ugu, ugc, uga, ugg,
-        cuu, cuc, cua, cug, ccu, ccc, cca, ccg, cau, cac, caa, cag, cgu, cgc, cga, cgg,
-        auu, auc, aua, aug, acu, acc, aca, acg, aau, aac, aaa, aag, agu, agc, aga, agg,
-        guu, guc, gua, gug, gcu, gcc, gca, gcg, gau, gac, gaa, gag, ggu, ggc, gga, ggg
-    ]
+    triplets_cls_objects = []
+    for amino_ac, codons in CODONS_AMINOACIDS_MAP.items():
+        for codon in codons:
+            aminoacids_cls_object = AminoAcids(aminoacid=amino_ac)
+            triplets_cls_objects.append(Triplets(codon=codon, aminoacid=aminoacids_cls_object))
 
     with Session() as session:
-        session.add_all(codons)
+        session.add_all(triplets_cls_objects)
         session.commit()
+
+
+if __name__ == '__main__':
+    Base.metadata.create_all(engine)
+    fill_rna_dna_tables()
+    fill_codons_aminoacids_tables()

@@ -39,7 +39,7 @@ def convert_rna_to_protein(rna: str) -> str:
     return polypeptide
 
 
-def plot_the_gc_ratio(sequence: str, step=100) -> None:
+def plot_the_gc_ratio(sequence: str, step: int = 100) -> None:
     """ Function that plots the GC-content graph """
 
     ratios = []
@@ -59,4 +59,3 @@ def plot_the_gc_ratio(sequence: str, step=100) -> None:
     plt.ylabel('guanine-cytosine ratio (%)')
     plt.xlabel('DNA bases position')
     plt.savefig('gc_ratio_of_genome.png')
-
