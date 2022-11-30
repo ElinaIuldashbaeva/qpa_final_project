@@ -1,1 +1,1 @@
-# https://github.com/ElinaIuldashbaeva/genetics_project
+# ORIGINAL PROGECT - https://github.com/ElinaIuldashbaeva/genetics_project
