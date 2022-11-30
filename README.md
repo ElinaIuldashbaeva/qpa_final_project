@@ -1,1 +1,1 @@
-# qpa_final_project
+# https://github.com/ElinaIuldashbaeva/genetics_project
